@@ -1,1 +1,47 @@
-/* No CSS *//*# sourceMappingURL=style.css.map */
+body {
+  background: #ecdcbd;
+}
+
+header {
+  border: 1px solid #fff;
+  height: 35pt;
+}
+
+.container {
+  width: 1170px;
+  margin: 0 auto;
+}
+
+.input {
+  margin-top: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.input-text {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.input-text__input {
+  padding: 10px 20%;
+}
+
+.input-text__btn {
+  padding: 5px 5%;
+  background: transparent;
+  color: #111;
+  border: none;
+  outline: none;
+}
+
+.input-text__btn:hover {
+  color: #969696;
+  cursor: pointer;
+}
+/*# sourceMappingURL=style.css.map */
