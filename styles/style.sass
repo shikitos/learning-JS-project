@@ -25,6 +25,7 @@
 $black: #000
 $bright: #ecdcbd
 $jogurt: #e6c9a5
+$gray: rgb(118, 118, 118)
 
 body
     background: $bright
@@ -77,9 +78,20 @@ header
         border: 1px solid $black
         height: 50vh
         &__task
-            height: 30px
             border-bottom: 1px solid $black
             display: flex
-            padding-left: 10%
             align-items: center
+            padding: 10px 10% 10px 11%
+        &__deletetask, &__donetask
+            color: $gray
+            margin-left: 25px
+            &:hover
+                color: $black
+                cursor: pointer
+        &__donetask
+            margin-left: auto
+        &__deletetask
+            margin-right: 20px
+            
+                
 
