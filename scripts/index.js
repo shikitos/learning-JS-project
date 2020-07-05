@@ -67,12 +67,20 @@ function createNewTask() {
          **Or newclassnames with ID at the end?
          */
         for (let i = 0; i < controlsArr.length; i++) {
-            controlsArr[i].addEventListener('click', () => {
-                if (i % 2 == 0) {
-                    tasksArr[i / 2].classList.toggle('donetask');
-                }
-            });
+            if (i % 2 == 0) {
+                controlsArr[i].addEventListener('click', () => {
+                    /*//TODO:Find the solution of this
+                     **Why this works with .add
+                     **But doesn't work with .toggle?
+                     **IDK wtf
+                     */
+                    tasksArr[i / 2].classList.add('donetask');
+                    console.log(i);
+                });
+            }
         }
+        console.log(tasksArr);
+        console.log(controlsArr);
     }
 
     //delete task button
@@ -84,12 +92,13 @@ function createNewTask() {
          **Where will be all tasks?
          **Or newclassnames with ID at the end?
          */
-        let deleteButton = document.querySelector('.input-inner__deletetask');
-        let anyTask = document.querySelector('.input-inner__task');
-        deleteButton.addEventListener('click', () => {
-            console.log(controlsArr);
-            // anyTask.style.textDecoration = 'line-through';
-        });
+        for (let i = 0; i < controlsArr.length; i++) {
+            controlsArr[i].addEventListener('click', () => {
+                if (i % 2 !== 0) {
+                    tasksArr[i].classList.toggle('donetask');
+                }
+            });
+        }
     }
 }
 
