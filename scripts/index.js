@@ -8,6 +8,8 @@ function createNewTask() {
     let areaForText = document.getElementById('inner-area');
     //array with controls
     let controlsArr = [];
+    //array with tasks
+    let tasksArr = [];
 
     //create eventListenere for the button
     submitButton.addEventListener('click', () => {
@@ -21,6 +23,8 @@ function createNewTask() {
             anyTask.textContent = textInput.value;
             //add text at the end of the div
             areaForText.appendChild(anyTask);
+            //add task to the arr
+            tasksArr.push(anyTask);
 
             //create controls function
             function createControls(type, symbol) {
@@ -62,17 +66,11 @@ function createNewTask() {
          **Where will be all tasks?
          **Or newclassnames with ID at the end?
          */
-        let doneButton = document.querySelector('.input-inner__donetask');
-        let anyTask = document.querySelector('.input-inner__task');
         for (let i = 0; i < controlsArr.length; i++) {
             controlsArr[i].addEventListener('click', () => {
                 if (i % 2 == 0) {
-                    console.log(i);
-
-                    console.log(controlsArr[i]);
-                    anyTask.style.textDecoration = 'line-through';
+                    tasksArr[i / 2].classList.toggle('donetask');
                 }
-                console.log('penis');
             });
         }
     }

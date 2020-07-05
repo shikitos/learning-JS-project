@@ -143,4 +143,38 @@ header {
 .input-inner__deletetask {
   margin-right: 20px;
 }
+
+.donetask {
+  color: #767676;
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.donetask::before {
+  border-bottom: 1px solid #000;
+  position: absolute;
+  content: "";
+  width: 100%;
+  -webkit-animation: strike 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+          animation: strike 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@-webkit-keyframes strike {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes strike {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
 /*# sourceMappingURL=style.css.map */

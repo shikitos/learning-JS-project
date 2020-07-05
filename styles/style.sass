@@ -25,8 +25,7 @@
 $black: #000
 $bright: #ecdcbd
 $jogurt: #e6c9a5
-$gray: rgb(118, 118, 118)
-
+$gray: #767676
 body
     background: $bright
 
@@ -94,6 +93,24 @@ header
             margin-left: auto
         &__deletetask
             margin-right: 20px
+
+.donetask
+    color: $gray
+    position: relative
+    overflow: hidden
+    max-width: 100%
+    &::before
+        border-bottom: 1px solid $black
+        position: absolute
+        content: ""
+        width: 100%
+        animation: strike 0.5s cubic-bezier(0.22, 0.61, 0.36, 1)
+
+@keyframes strike
+    0%
+        width: 0
+    100%
+        width: 100%
             
                 
 
