@@ -102,7 +102,7 @@ header {
 }
 
 .input-text__btn:hover {
-  color: #969696;
+  color: #767676;
   cursor: pointer;
 }
 
@@ -120,6 +120,10 @@ header {
       -ms-flex-align: center;
           align-items: center;
   padding: 10px 10% 10px 11%;
+}
+
+.input-inner__task:hover {
+  color: #000;
 }
 
 .input-inner__deletetask, .input-inner__donetask {
