@@ -16,14 +16,26 @@ function createNewTask() {
     //create eventListenere for the button
     submitButton.addEventListener('click', () => {
         //create new <div></div>
-        let anyTaskValue = textInput.value;
-        temp.todo = anyTaskValue;
+        anyTask = document.createElement('div');
+        temp.todo = textInput.value;
         temp.check = false;
         todoList.push(temp);
+        areaForText.appendChild(anyTask);
         console.log(todoList);
 
-        //     //give it the class
-        //     anyTask.classList.add('input-inner__task');
+        outputElements();
+
+        function outputElements() {
+            //give it the class
+            anyTask.classList.add('input-inner__task');
+            //clear the value
+            anyTask.value = '';
+            for (let i = 0; i < todoList.length; i++) {
+                areaForText.innerHTML +=
+                    '<input type="checkbox" checked> ' + todoList[i].todo;
+            }
+        }
+
         //     //if input not empty
         //     if (textInput.value) {
         //         //create text without controls
