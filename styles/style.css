@@ -84,7 +84,8 @@ header {
 }
 .input-inner {
   border: 1px solid #000;
-  height: 50vh;
+  height: 54vh;
+  overflow: auto;
 }
 .input-inner__task {
   border-bottom: 1px solid #000;
@@ -110,22 +111,23 @@ header {
   margin-right: 20px;
 }
 
-.donetask {
-  color: #767676;
-  position: relative;
-  overflow: hidden;
-  max-width: 100%;
-  text-decoration: line-through;
-  animation: strike 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+.footer .row {
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-evenly;
 }
-
-@keyframes strike {
-  0% {
-    width: 0;
-  }
-  100% {
-    width: 100%;
-  }
+.footer__btn1, .footer__btn2 {
+  padding: 5px;
+  background-color: #ecdcbd;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+}
+.footer__btn1:hover, .footer__btn2:hover {
+  color: #e6c9a5;
+  text-shadow: 0.5px 0.5px 0.5px #000;
 }
 
 /*# sourceMappingURL=style.css.map */
