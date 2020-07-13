@@ -51,8 +51,50 @@ function createNewTask() {
         deleteTasks();
         //start function which will delete all elements
         deleteAllTasks();
+        //start function which will toggle check effect
+        checkItem();
         //clear the input.value section
         textInput.value = '';
+    }
+
+    //checkbox style and switch todoList.check attr
+    function checkItem() {
+        //get li elements
+        let innerTask = unorderedList.children
+        //iterating through an array of tasks
+        for (let key in todoList) {
+            //get checkbox of the every task
+            let checkbox = document.querySelector(`.checkbox${key}`);
+            //add event for every checkbox
+            checkbox.addEventListener('click', () => {
+                //toggle class at the clicked checkbox
+                innerTask[key].classList.toggle('donetask');
+                /*
+                **if todoList.check == false
+                **when click at the check box
+                ** class toggle true <-> false
+                 */
+                if (!todoList.check) {
+                    //toggle check:false to true
+                    todoList.check = true;
+                    //get elements from local storage
+                    let localArr = JSON.parse(localStorage.getItem('todoList'));
+                    //toggle check at the local storage to true
+                    localArr[key].check = true;
+                    //save array to the local storage
+                    localStorage.setItem('todoList', JSON.stringify(localArr));
+                } else {
+                    //toggle check:false to false
+                    todoList.check = false;
+                    //get elements from local storage
+                    let localArr = JSON.parse(localStorage.getItem('todoList'));
+                    //toggle check at the local storage to false
+                    localArr[key].check = false;
+                    //save array to the local storage
+                    localStorage.setItem('todoList', JSON.stringify(localArr));
+                }
+            });
+        }
     }
 
     //delete checked tasks
@@ -76,7 +118,6 @@ function createNewTask() {
                     //save array to the local storage
                     localStorage.setItem('todoList', JSON.stringify(localArr));
                 }
-
             }
         });
     }
