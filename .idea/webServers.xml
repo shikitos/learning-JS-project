@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="e5e7585a-d7ad-4b0d-b0e1-e1c293565e08" name="todolist" url="http://localhost:8080">
+        <fileTransfer mountedRoot="D:\Purposes\Coding\Front-End\learning-JS-project" accessType="MOUNT" port="0" />
+      </webServer>
+    </option>
+  </component>
+</project>

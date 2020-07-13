@@ -6,101 +6,97 @@ function createNewTask() {
     let submitButton = document.getElementById('text-btn');
     //get text output area from dom and create var of the area
     let areaForText = document.getElementById('inner-area');
-    //array with controls
-    let controlsArr = [];
-    //array with tasks
-    let tasksArr = [];
+    //create array with tasks
+    let todoList = [];
 
-    //create eventListenere for the button
+
+
+    //create eventListener for the button
     submitButton.addEventListener('click', () => {
-        //create new <div></div>
-        let anyTask = document.createElement('div');
-        //give it the class
-        anyTask.classList.add('input-inner__task');
-        //if input not empty
-        if (textInput.value) {
-            //create text without controls
-            anyTask.textContent = textInput.value;
-            //add text at the end of the div
-            areaForText.appendChild(anyTask);
-            //add task to the arr
-            tasksArr.push(anyTask);
-
-            //create controls function
-            function createControls(type, symbol) {
-                //create new <span></span>
-                let typeControl = document.createElement('span');
-                //give it the class
-                typeControl.classList.add(`input-inner__${type}task`);
-                //give it the content
-                typeControl.innerHTML = symbol;
-                //add controls at the end of the div
-                anyTask.appendChild(typeControl);
-                //add controls to the arr
-                controlsArr.push(typeControl);
-            }
-            //create for "done" element
-            createControls('done', '&#10004');
-            //create for "delete" element
-            createControls('delete', '&#10008');
-            //else input is empty
-        } else if (
-            textInput.value == '' ||
-            textInput.value == null ||
-            textInput.value == ' '
-        ) {
-            console.log('Empty');
+        if (textInput.value !== '' || textInput.value == null) {
+            //create temporary object
+            let temp = {};
+            //add value to the array todoList
+            temp.todo = textInput.value;
+            //add check false (for true in the future when task has done)
+            temp.check = false;
+            //add temporary array to the current
+            todoList.push(temp);
+            //start outputting elements
+            outputElements();
+            //localStorage for the todoList
+            localStorage.setItem('todoList', JSON.stringify(todoList));
+        //if value is empty
+        } else {
+            console.log("Empty string");
         }
-        //clear the input after click
-        textInput.value = '';
-        doneTask();
-        deleteTask();
     });
 
-    //done task button
-    function doneTask() {
-        //var for done-button
-        /*//TODO: How to get all elements (not only one)
-         **Need to figure out with this
-         **Maybe create new Arr
-         **Where will be all tasks?
-         **Or newclassnames with ID at the end?
-         */
-        for (let i = 0; i < controlsArr.length; i++) {
-            if (i % 2 == 0) {
-                controlsArr[i].addEventListener('click', () => {
-                    /*//TODO:Find the solution of this
-                     **Why this works with .add
-                     **But doesn't work with .toggle?
-                     **IDK wtf
-                     */
-                    tasksArr[i / 2].classList.add('donetask');
-                    console.log(i);
-                });
+    //function for outputElements from todoList
+    function outputElements() {
+        // console.log("function is working");
+        // //give it the class
+        // //clear the value
+        // textInput.value = '';
+        // //outputText field - create and make it clean
+        // let outputText = '';
+        // //start cycle for array
+        // for (let i = 0; i < todoList.length; i++) {
+        //     //if element is checked
+        //     if (todoList[i].check) {
+        //         //we will add class to the span
+        //         outputText =
+        //             `<span class="donetask"><input type="checkbox" checked>${todoList[i].todo}</span><br>`;
+        //         console.log("Working");
+        //     }
+        //     //or, if it isn't checked
+        //     else {
+        //         outputText =
+        //             `<span><input type="checkbox"> ${todoList[i].todo}</span><br>`;
+        //     }
+        // }
+        //output current text at the next line
+        todoList.forEach(elem => {
+            if (elem.check) {
+                //create new <div></div>
+                let anyTask = document.createElement('div');
+                //git class to the element
+                anyTask.classList.add('input-inner__task');
+                //add new div into areaForText
+                areaForText.appendChild(anyTask);
+                anyTask.innerHTML += `<span class="donetask"><input type="checkbox" checked>${elem.todo}</span>`;
+            } else{
+                //create new <div></div>
+                let anyTask = document.createElement('div');
+                //git class to the element
+                anyTask.classList.add('input-inner__task');
+                //add new div into areaForText
+                areaForText.appendChild(anyTask);
+                anyTask.innerHTML += `<span><input type="checkbox"> ${elem.todo}</span>`;
             }
-        }
-        console.log(tasksArr);
-        console.log(controlsArr);
+        });
     }
 
-    //delete task button
-    function deleteTask() {
-        //var for done-button
-        /*//TODO: How to get all elements (not only one)
-         **Need to figure out with this
-         **Maybe create new Arr
-         **Where will be all tasks?
-         **Or newclassnames with ID at the end?
-         */
-        for (let i = 0; i < controlsArr.length; i++) {
-            controlsArr[i].addEventListener('click', () => {
-                if (i % 2 !== 0) {
-                    tasksArr[i].classList.toggle('donetask');
-                }
-            });
-        }
+    //delete tasks
+    function deleteTasks() {
+        let btnDeleteTask = document.getElementById('delete-tasks');
+
+        btnDeleteTask.addEventListener('click', () => {
+            for (let key in todoList) {
+                todoList.splice(key, 1);
+            }
+        })
+    }
+    deleteTasks();
+
+    if (localStorage.getItem('todoList')) {
+        todoList = JSON.parse(localStorage.getItem('todoList'));
+        outputElements();
     }
 }
 
 //new task function
 createNewTask();
+
+
+
