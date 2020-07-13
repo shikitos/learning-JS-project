@@ -5,11 +5,9 @@ function createNewTask() {
     //get button from dom and create var of the button
     let submitButton = document.getElementById('text-btn');
     //get text output area from dom and create var of the area
-    let areaForText = document.getElementById('inner-area');
+    let unorderedList = document.getElementById('place');
     //create array with tasks
     let todoList = [];
-
-
 
     //create eventListener for the button
     submitButton.addEventListener('click', () => {
@@ -26,7 +24,7 @@ function createNewTask() {
             outputElements();
             //localStorage for the todoList
             localStorage.setItem('todoList', JSON.stringify(todoList));
-        //if value is empty
+            //if value is empty
         } else {
             console.log("Empty string");
         }
@@ -37,31 +35,73 @@ function createNewTask() {
         //clear the output
         let output = '';
         //start iterating through an array
-        for (let i = 0; i < todoList.length; i++) {
+        for (let key in todoList) {
+            //constant for a shorter entry
+            const { todo, check } = todoList[key];
             // if task is checked
-            if (todoList[i].check) {
-                output += `<div class="input-inner__task"><input type="checkbox" checked>${todoList[i].todo}</div>`;
+            if (check) {
+                output += `<li class="input-inner__task"><input checked type="checkbox" class="checkbox${key}"><span class="donetask">${todo}</span></li>`;
             } else {
-                output += `<div class="input-inner__task"><input type="checkbox">${todoList[i].todo}</div>`;
+                output += `<li class="input-inner__task"><input type="checkbox" class="checkbox${key}"><span>${todo}</span></li>`;
             }
         }
         //output all tasks to the HTML
-        areaForText.innerHTML = output;
+        unorderedList.innerHTML = output;
+        //start function which will delete checked elements
+        deleteTasks();
+        //start function which will delete all elements
+        deleteAllTasks();
+        //clear the input.value section
+        textInput.value = '';
     }
-    //delete tasks
+
+    //delete checked tasks
     function deleteTasks() {
-        let btnDeleteTask = document.getElementById('delete-tasks');
+        //get list of tasks
+        let li = unorderedList.children;
+        //get deleteTasks button
+        let btnDeleteTasks = document.getElementById('delete-tasks');
+        //add event listener for the click to btn
+        btnDeleteTasks.addEventListener('click', () => {
+            //create loop for every li element
+            for (let i = 0; i < li.length; i++) {
+                //if element is checked
+                while (li[i] && li[i].children[0].checked) {
+                    //delete a checked item
+                    unorderedList.removeChild(li[i]);
+                    //extract an array from the local storage
+                    let localArr = JSON.parse(localStorage.getItem('todoList'));
+                    //delete this element
+                    localArr.splice(li[i], 1);
+                    //save array to the local storage
+                    localStorage.setItem('todoList', JSON.stringify(localArr));
+                }
 
-        btnDeleteTask.addEventListener('click', () => {
-            for (let key in todoList) {
-                // todoList[key].splice(key, 1);
             }
-        })
+        });
     }
-    deleteTasks();
 
+
+    //delete all tasks from the list
+    function deleteAllTasks() {
+        //get deleteAllTasks button
+        let btnDeleteAllTasks = document.getElementById('delete-all-tasks');
+        //add event for the button
+        btnDeleteAllTasks.addEventListener('click', () => {
+            /*
+            **while we have elements (<li>) in the <ul>
+            **remove <li> from <ul>
+            */
+            while (unorderedList.firstChild) unorderedList.removeChild(unorderedList.firstChild);
+            //as well, remove all elements from the local storage
+            localStorage.clear();
+        });
+    }
+
+    //if local storage isn't empty — parse elements and output them
     if (localStorage.getItem('todoList')) {
         todoList = JSON.parse(localStorage.getItem('todoList'));
+        //output elements to the page
         outputElements();
     }
 }
