@@ -5,11 +5,9 @@ function createNewTask() {
     //get button from dom and create var of the button
     let submitButton = document.getElementById('text-btn');
     //get text output area from dom and create var of the area
-    let areaForText = document.getElementById('inner-area');
+    let areaForText = document.getElementById('place');
     //create array with tasks
     let todoList = [];
-
-
 
     //create eventListener for the button
     submitButton.addEventListener('click', () => {
@@ -26,7 +24,7 @@ function createNewTask() {
             outputElements();
             //localStorage for the todoList
             localStorage.setItem('todoList', JSON.stringify(todoList));
-        //if value is empty
+            //if value is empty
         } else {
             console.log("Empty string");
         }
@@ -37,26 +35,44 @@ function createNewTask() {
         //clear the output
         let output = '';
         //start iterating through an array
-        for (let i = 0; i < todoList.length; i++) {
+        for (let key in todoList) {
+            //constant for a shorter entry
+            const { todo, check } = todoList[key];
             // if task is checked
-            if (todoList[i].check) {
-                output += `<div class="input-inner__task"><input type="checkbox" checked>${todoList[i].todo}</div>`;
+            if (check) {
+                output += `<li class="input-inner__task"><input checked type="checkbox" class="checkbox${key}"><span class="donetask">${todo}</span></li>`;
             } else {
-                output += `<div class="input-inner__task"><input type="checkbox">${todoList[i].todo}</div>`;
+                output += `<li class="input-inner__task"><input type="checkbox" class="checkbox${key}"><span>${todo}</span></li>`;
             }
         }
+
         //output all tasks to the HTML
         areaForText.innerHTML = output;
+        checkedTasks();
+        deleteTasks();
     }
+
+    function checkedTasks() {
+        let li = areaForText.children;
+        for (let i = 0; i < li.length; i++) {
+            while (li[i] && li[i].children[0].checked) {
+                areaForText.removeChild(li[i]);
+            }
+        }
+    }
+
+
     //delete tasks
     function deleteTasks() {
         let btnDeleteTask = document.getElementById('delete-tasks');
-
         btnDeleteTask.addEventListener('click', () => {
-            for (let key in todoList) {
-                // todoList[key].splice(key, 1);
+            let li = areaForText.children;
+            for (let i = 0; i < li.length; i++) {
+                while (li[i] && li[i].children[0].checked) {
+                    areaForText.removeChild(li[i]);
+                }
             }
-        })
+        });
     }
     deleteTasks();
 
