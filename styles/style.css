@@ -147,6 +147,11 @@ header {
   text-shadow: 0.5px 0.5px 0.5px #000;
 }
 
+.task-date {
+  margin-left: auto;
+  color: #767676;
+}
+
 .footer-title, .footer__donetask {
   border: 1px solid #000;
 }

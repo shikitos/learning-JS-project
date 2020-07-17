@@ -45,9 +45,9 @@ function createNewTask() {
         //start iterating through an array
         for (let key in todoList) {
             //constant for a shorter entry
-            const { todo, check } = todoList[key];
+            const { todo, check, date } = todoList[key];
             // if task is checked
-            output += `<li class="input-inner__task"><input type="checkbox" class="checkbox${key}"><span>${todo}</span></li>`;
+            output += `<li class="input-inner__task"><input type="checkbox" class="checkbox${key}"><span class="task-todo">${todo}</span><span class="task-date">  ${date.day}/${date.month}/${date.year}</span></li>`;
         }
         //output all tasks to the HTML
         unorderedList.innerHTML = output;
