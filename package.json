@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/shikitos/learning-JS-project/issues"
   },
-  "homepage": "https://github.com/shikitos/learning-JS-project#readme"
+  "homepage": "https://github.com/shikitos/learning-JS-project#readme",
+  "dependencies": {
+    "sass": "^1.26.10"
+  }
 }

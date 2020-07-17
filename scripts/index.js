@@ -9,15 +9,23 @@ function createNewTask() {
     //create array with tasks
     let todoList = [];
 
+    let date = new Date();
+
     //create eventListener for the button
     submitButton.addEventListener('click', () => {
-        if (textInput.value !== '' || textInput.value == null) {
+        if (textInput.value !== '' || textInput.value !== null || textInput.value !== 'undefined') {
             //create temporary object
             let temp = {};
             //add value to the array todoList
             temp.todo = textInput.value;
             //add check false (for true in the future when task has done)
             temp.check = false;
+            temp.date = {
+                day: date.getDate(),
+                month: date.getMonth() + 1,
+                year: date.getFullYear(),
+            }
+            console.log(temp.date);
             //add temporary array to the current
             todoList[todoList.length] = temp;
             //start outputting elements
@@ -39,11 +47,7 @@ function createNewTask() {
             //constant for a shorter entry
             const { todo, check } = todoList[key];
             // if task is checked
-            if (check) {
-                output += `<li class="input-inner__task"><input checked type="checkbox" class="checkbox${key}"><span class="donetask">${todo}</span></li>`;
-            } else {
-                output += `<li class="input-inner__task"><input type="checkbox" class="checkbox${key}"><span>${todo}</span></li>`;
-            }
+            output += `<li class="input-inner__task"><input type="checkbox" class="checkbox${key}"><span>${todo}</span></li>`;
         }
         //output all tasks to the HTML
         unorderedList.innerHTML = output;
@@ -53,6 +57,8 @@ function createNewTask() {
         deleteAllTasks();
         //start function which will toggle check effect
         checkItem();
+        //start function which will move and delete from list done tasks
+        clearAndMoveDoneTasks();
         //clear the input.value section
         textInput.value = '';
     }
@@ -60,7 +66,7 @@ function createNewTask() {
     //checkbox style and switch todoList.check attr
     function checkItem() {
         //get li elements
-        let innerTask = unorderedList.children
+        let innerTask = unorderedList.children;
         //iterating through an array of tasks
         for (let key in todoList) {
             //get checkbox of the every task
@@ -68,13 +74,14 @@ function createNewTask() {
             //add event for every checkbox
             checkbox.addEventListener('click', () => {
                 //toggle class at the clicked checkbox
-                innerTask[key].classList.toggle('donetask');
+                // innerTask[key].classList.toggle('donetask');
                 /*
                 **if todoList.check == false
                 **when click at the check box
                 ** class toggle true <-> false
                  */
                 if (!todoList.check) {
+                    innerTask[key].classList.add('donetask');
                     //toggle check:false to true
                     todoList.check = true;
                     //get elements from local storage
@@ -84,6 +91,7 @@ function createNewTask() {
                     //save array to the local storage
                     localStorage.setItem('todoList', JSON.stringify(localArr));
                 } else {
+                    innerTask[key].classList.remove('donetask');
                     //toggle check:false to false
                     todoList.check = false;
                     //get elements from local storage
@@ -97,6 +105,22 @@ function createNewTask() {
         }
     }
 
+    //todo too much clicks = to much output
+    function clearAndMoveDoneTasks() {
+        let textArea = document.getElementById('donetask')
+        let li = unorderedList.children;
+        let btnClearDoneTasks = document.getElementById('done-tasks');
+        btnClearDoneTasks.addEventListener('click', () => {
+            for (let i = 0; i < li.length; i++) {
+                // while (li[i] && li[i].children[0].checked) {
+                    textArea.innerHTML += `<li class="footer__datalist">${todoList[i].todo}</li>`;
+                // }
+                // textArea.innerHTML += + ' ';
+            }
+        });
+    }
+
+    //todo when I click at the button — delete first task, not checked
     //delete checked tasks
     function deleteTasks() {
         //get list of tasks
@@ -109,12 +133,14 @@ function createNewTask() {
             for (let i = 0; i < li.length; i++) {
                 //if element is checked
                 while (li[i] && li[i].children[0].checked) {
+                    console.log(li[i]);
                     //delete a checked item
                     unorderedList.removeChild(li[i]);
                     //extract an array from the local storage
                     let localArr = JSON.parse(localStorage.getItem('todoList'));
                     //delete this element
-                    localArr.splice(li[i], 1);
+                    console.log(localArr);
+                    localArr.splice(i, 1);
                     //save array to the local storage
                     localStorage.setItem('todoList', JSON.stringify(localArr));
                 }
