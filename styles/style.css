@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .container {
   width: 100%;
   padding-right: 15px;
@@ -147,11 +148,6 @@ header {
   text-shadow: 0.5px 0.5px 0.5px #000;
 }
 
-.task-date {
-  margin-left: auto;
-  color: #767676;
-}
-
 .footer-title, .footer__donetask {
   border: 1px solid #000;
 }
@@ -167,11 +163,33 @@ header {
 .footer__donetasks {
   overflow: auto;
   height: 150px;
+  padding: 0;
+  margin: 0;
 }
 .footer__datalist {
-  margin-left: 10%;
+  padding-left: 10%;
   text-decoration: line-through;
   color: #767676;
+  display: flex;
+  border-bottom: 1px solid #000;
+}
+
+.task-done::before {
+  content: "✔";
+  margin-right: 3px;
+}
+.task-date {
+  margin-left: auto;
+  color: #767676;
+  display: flex;
+  justify-content: space-between;
+}
+.task-donedate {
+  margin-left: auto;
+  color: #767676;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 11%;
 }
 
 /*# sourceMappingURL=style.css.map */

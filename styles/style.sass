@@ -137,11 +137,7 @@ header
             color: $dark
             text-shadow: 0.5px 0.5px 0.5px $black
 
-.task
-    &-todo
-    &-date
-        margin-left: auto
-        color: $gray
+
 
 
 .footer
@@ -158,7 +154,28 @@ header
     &__donetasks
         overflow: auto
         height: 150px
+        padding: 0
+        margin: 0
     &__datalist
-        margin-left: 10%
+        padding-left: 10%
         text-decoration: line-through
         color: $gray
+        display: flex
+        border-bottom: 1px solid $black
+
+.task
+    &-done
+        &::before
+            content: "\2714"
+            margin-right: 3px
+    &-date
+        margin-left: auto
+        color: $gray
+        display: flex
+        justify-content: space-between
+    &-donedate
+        margin-left: auto
+        color: $gray
+        display: flex
+        justify-content: space-between
+        margin-right: 11%
