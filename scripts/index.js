@@ -34,6 +34,7 @@ function createNewTask() {
             localStorage.setItem('todoList', JSON.stringify(todoList));
             //if value is empty
         } else {
+            //If area is empty — do nothing
             console.log("Empty string");
         }
     });
@@ -48,8 +49,10 @@ function createNewTask() {
             const { todo, date } = todoList[key];
             // if task is checked
             if (todoList[key].check) {
+                //here — we add class for the <li></li> — "donetask"
                 output += `<li class="input-inner__task donetask"><input checked type="checkbox" class="checkbox${key}"><span class="task-todo">${todo}</span><span class="task-date">  ${date.day}/${date.month}/${date.year}</span></li>`;
             } else {
+                //here we create output without "donetask" class — this only for new tasks
                 output += `<li class="input-inner__task"><input type="checkbox" class="checkbox${key}"><span class="task-todo">${todo}</span><span class="task-date">  ${date.day}/${date.month}/${date.year}</span></li>`;
             }
         }
@@ -63,6 +66,7 @@ function createNewTask() {
         checkItem();
         //start function which will move and delete from list done tasks
         clearAndMoveDoneTasks();
+        //start function which will output all done elements
         outputDoneTasks();
         //clear the input.value section
         textInput.value = '';
@@ -78,14 +82,13 @@ function createNewTask() {
             let checkbox = document.querySelector(`.checkbox${key}`);
             //add event for every checkbox
             checkbox.addEventListener('change', () => {
-                //toggle class at the clicked checkbox
-                // innerTask[key].classList.toggle('donetask');
                 /*
                 **if todoList.check == false
                 **when click at the check box
                 ** class toggle true <-> false
                  */
                 if (!todoList[key].check) {
+                    //add class when task is done
                     innerTask[key].classList.add('donetask');
                     //toggle check:false to true
                     todoList[key].check = true;
@@ -96,6 +99,7 @@ function createNewTask() {
                     //save array to the local storage
                     localStorage.setItem('todoList', JSON.stringify(localArr));
                 } else {
+                    //remove class is task isn't done
                     innerTask[key].classList.remove('donetask');
                     //toggle check:false to false
                     todoList[key].check = false;
@@ -110,22 +114,35 @@ function createNewTask() {
         }
     }
 
+    /*
+    ** function for a clear area
+    ** from done tasks and move it
+    ** at the local storage and at the window with done tasks
+     */
     function clearAndMoveDoneTasks() {
+        //get area where will be tasks
         let textArea = document.getElementById('donetask');
+        //get <li> item for task
         let li = unorderedList.children;
+        //get button for "CLEAR DONE TASKS"
         let btnClearDoneTasks = document.getElementById('done-tasks');
+        //create empty arr for tasks
+        let doneTasksArr = [];
+
+        //add eventlistener for button
         btnClearDoneTasks.addEventListener('click', () => {
+            //every time before output clear area
             textArea.innerHTML = '';
             for (let i = 0; i < li.length; i++) {
-                // while (li[i] && li[i].children[0].checked) {
                 if (li[i].children[0].checked) {
                     if (localStorage.getItem('doneTasks')) {
-                        let doneTasksArr = JSON.parse(localStorage.getItem('doneTasks'));
-                        console.log(doneTasksArr);
+                        //get data from local storage
+                        doneTasksArr = JSON.parse(localStorage.getItem('doneTasks'));
+                        //add task at the array
                         doneTasksArr.push(todoList[i]);
-                        // doneTasksArr.push(todoList[i]);
+                        //add done task at the local storage
                         localStorage.setItem('doneTasks', JSON.stringify(doneTasksArr));
-                        textArea.innerHTML += `<li class="footer__datalist"><span class="task-done">${todoList[i].todo}</span><span class="task-donedate">${todoList[i].date.day}/${todoList[i].date.month}/${todoList[i].date.year}</span></li>`;
+                        //remove done task from task list
                         unorderedList.removeChild(li[i]);
                         //extract an array from the local storage
                         let localArr = JSON.parse(localStorage.getItem('todoList'));
@@ -134,22 +151,46 @@ function createNewTask() {
                         //save array to the local storage
                         localStorage.setItem('todoList', JSON.stringify(localArr));
                         outputDoneTasks();
+                    } else {
+                        //add task at the array
+                        doneTasksArr.push(todoList[i]);
+                        //add done task at the local storage
+                        localStorage.setItem('doneTasks', JSON.stringify(doneTasksArr));
+                        //remove done task from task list
+                        unorderedList.removeChild(li[i]);
+                        //extract an array from the local storage
+                        let localArr = JSON.parse(localStorage.getItem('todoList'));
+                        //delete this element
+                        localArr.splice(i, 1);
+                        //save array to the local storage
+                        localStorage.setItem('todoList', JSON.stringify(localArr));
+                        //output the done-tasks list
+                        outputDoneTasks();
                     }
                 }
                  else {
                     console.log("Unchecked");
                 }
-                // }
-                // textArea.innerHTML += + ' ';
             }
         });
+        //if we have not in storage done tasks
+        if (!localStorage.getItem('doneTasks')) {
+            //output the text....
+            textArea.innerHTML = `<span class="footer__datalist-empty">Пока тута пусто<span class="footer__datalist-emptyani">.</span><span class="footer__datalist-emptyani">.</span><span class="footer__datalist-emptyani">.</span></span>`;
+        }
     }
 
+    //output all done tasks
     function outputDoneTasks() {
+        //get wrapper of the every task (<ul>)
         let textArea = document.getElementById('donetask');
+        //if we have data in local storage
         if (localStorage.getItem('doneTasks')) {
+            //parse from local to var
             let localDoneTasks = JSON.parse(localStorage.getItem('doneTasks'));
+            //start a loop for an array from local storage
             for (let i = 0; i < localDoneTasks.length; i++) {
+                //get data by every iteration
                 textArea.innerHTML += `<li class="footer__datalist"><span class="task-done">${localDoneTasks[i].todo}</span><span class="task-donedate">${localDoneTasks[i].date.day}/${localDoneTasks[i].date.month}/${localDoneTasks[i].date.year}</span></li>`;
             }
         }
