@@ -128,11 +128,10 @@ function createNewTask() {
         let btnClearDoneTasks = document.getElementById('done-tasks');
         //create empty arr for tasks
         let doneTasksArr = [];
-
+        console.log("ПЕРДУН ОЧЕНЬ СИЛЬНО НАБАГАЛ");
         //add eventlistener for button
         btnClearDoneTasks.addEventListener('click', () => {
             //every time before output clear area
-            textArea.innerHTML = '';
             for (let i = 0; i < li.length; i++) {
                 if (li[i].children[0].checked) {
                     if (localStorage.getItem('doneTasks')) {
@@ -149,7 +148,8 @@ function createNewTask() {
                         //delete this element
                         localArr.splice(i, 1);
                         //save array to the local storage
-                        localStorage.setItem('todoList', JSON.stringify(localArr));
+                        localStorage.setItem('todoList', JSON.stringify(localArr))
+                        //output the done-tasks list
                         outputDoneTasks();
                     } else {
                         //add task at the array
@@ -184,6 +184,8 @@ function createNewTask() {
     function outputDoneTasks() {
         //get wrapper of the every task (<ul>)
         let textArea = document.getElementById('donetask');
+        //create var with text
+        let textElements = '';
         //if we have data in local storage
         if (localStorage.getItem('doneTasks')) {
             //parse from local to var
@@ -191,8 +193,10 @@ function createNewTask() {
             //start a loop for an array from local storage
             for (let i = 0; i < localDoneTasks.length; i++) {
                 //get data by every iteration
-                textArea.innerHTML += `<li class="footer__datalist"><span class="task-done">${localDoneTasks[i].todo}</span><span class="task-donedate">${localDoneTasks[i].date.day}/${localDoneTasks[i].date.month}/${localDoneTasks[i].date.year}</span></li>`;
+                 textElements += `<li class="footer__datalist"><span class="task-done">${localDoneTasks[i].todo}</span><span class="task-donedate">${localDoneTasks[i].date.day}/${localDoneTasks[i].date.month}/${localDoneTasks[i].date.year}</span></li>`;
+                console.log("ПЕРДУН НАБАГАЛ");
             }
+            textArea.innerHTML = textElements;
         }
     }
 
